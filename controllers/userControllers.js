@@ -66,6 +66,6 @@ exports.isLoggedIn = function (req, res, next) {
     });
   }
 };
-exports.home = function (req, res) {
+exports.index = function (req, res) {
   res.render("index", { title: "Naukri-Clone" });
 };

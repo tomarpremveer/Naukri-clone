@@ -4,6 +4,12 @@ const Job = require("../models/Job");
  * @param {Request Object} req
  * @param {Response Object} res
  */
+exports.home = function (req, res) {
+  res.render("home", { title: "Jobs Home" });
+};
+exports.appliedJobs = function (req, res) {
+  res.render("appliedJobs", { title: "Applied Jobs" });
+};
 exports.addJob = function (req, res) {
   var jobData = {
     title: req.body.title,
