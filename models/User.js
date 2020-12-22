@@ -35,7 +35,7 @@ User.prototype.register = function () {
       let salt = bcrypt.genSaltSync(10);
       this.userData.password = bcrypt.hashSync(this.userData.password, salt);
       usersCollection.insertOne(this.userData);
-      resolve();
+      resolve("User created successfully");
     } else {
       reject(this.errors);
     }
