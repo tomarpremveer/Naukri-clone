@@ -4,7 +4,8 @@
   "description": "",
   "main": "db.js",
   "scripts": {
-    "watch": "nodemon db",
+    "start": "node db.js",
+    "watch":"nodemon db",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Premveer Tomar",
