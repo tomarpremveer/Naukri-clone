@@ -5,7 +5,7 @@ const Job = require("../models/Job");
  * @param {Response Object} res
  */
 exports.home = function (req, res) {
-  res.render("home", { title: "Jobs Home" });
+  res.render("jobs", { title: "Jobs Home" });
 };
 exports.appliedJobs = function (req, res) {
   res.render("appliedJobs", { title: "Applied Jobs" });
@@ -37,7 +37,7 @@ exports.viewJob = function (req, res) {
   Job.viewJob(req.params.id)
     .then((jobData) => {
       // const { title } = jobData;
-      res.send(jobData);
+      res.render("viewJob", { title: jobData.title });
     })
     .catch((err) => {
       res.send("this is the error" + err);

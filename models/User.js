@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const usersCollection = require("../db").db().collection("users");
 const jobCollection = require("../db").db().collection("jobs");
 /**
@@ -11,7 +12,7 @@ let User = function (userData) {
 
 User.prototype.login = function () {
   return new Promise((resolve, reject) => {
-    this.cleanUp();
+    //this.cleanUp();
     usersCollection
       .findOne({ username: this.userData.username })
       .then((attemptedUser) => {
@@ -30,15 +31,23 @@ User.prototype.login = function () {
 
 User.prototype.register = function () {
   return new Promise((resolve, reject) => {
-    this.cleanUp();
-    if (!this.errors.length) {
-      let salt = bcrypt.genSaltSync(10);
-      this.userData.password = bcrypt.hashSync(this.userData.password, salt);
-      usersCollection.insertOne(this.userData);
-      resolve("User created successfully");
-    } else {
-      reject(this.errors);
-    }
+    //this.cleanUp();
+    console.log("inside the model" + this.userData.email);
+    // if (!this.errors.length) {
+    let salt = bcrypt.genSaltSync(10);
+    this.userData.password = bcrypt.hashSync(this.userData.password, salt);
+    usersCollection
+      .insertOne(this.userData)
+      .then((info) => {
+        resolve(info);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+    // } else {
+    //   reject(this.errors);
+    // }
   });
 };
 

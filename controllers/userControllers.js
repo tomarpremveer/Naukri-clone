@@ -1,4 +1,5 @@
 const User = require("../models/User");
+
 exports.login = function (req, res) {
   let user = new User(req.body);
   user
@@ -35,22 +36,29 @@ exports.checkForEmail = function (req, res) {
     });
 };
 exports.register = function (req, res) {
-  let user = new User(req.body);
+  var userData = {
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+  };
+  console.log(userData);
+  var user = new User(userData);
   user
     .register()
-    .then(() => {
+    .then((info) => {
       req.session.user = {
         username: user.userData.username,
-        _id: user.userData._id,
+        _id: info.ops[0]._id,
       };
       req.session.save(function () {
-        res.redirect("/");
+        res.redirect("/jobs");
       });
     })
     .catch((regErrors) => {
-      regErrors.forEach(function (e) {
-        req.flash("regErrors", e);
-      });
+      // regErrors.forEach(function (e) {
+      //   req.flash("regErrors", e);
+      // });
+      console.log(regErrors);
       req.session.save(function () {
         res.redirect("/");
       });
