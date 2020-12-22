@@ -1,7 +1,8 @@
 const usersCollection = require("../db").db().collection("users");
+const jobCollection = require("../db").db().collection("jobs");
 /**
  * User constructor
- * @param {Array} userData
+ * @param {Object} userData
  */
 let User = function (userData) {
   this.userData = userData;
@@ -19,14 +20,8 @@ User.prototype.login = function () {
           bcrypt.compareSync(this.data.password, attemptedUser.password)
         ) {
           this.userData = attemptedUser;
-          let jobsApplied = usersCollection
-            .aggregate([
-              {
-                $match: {},
-              },
-            ])
-            .toArray();
-          resolve(jobsApplied);
+          let jobs = jobCollection().toArray();
+          resolve(jobs);
         }
       })
       .catch(() => reject("Error occured"));
@@ -46,6 +41,7 @@ User.prototype.register = function () {
     }
   });
 };
+
 User.prototype.cleanUp = function () {
   if (typeof this.userData.username != "string") {
     this.userData.username = "";
@@ -62,3 +58,14 @@ User.prototype.cleanUp = function () {
     password: this.userData.password,
   };
 };
+User.prototype.isEmailExists = function (email) {
+  return new Promise(async (resolve, reject) => {
+    let isExists = await usersCollection.find({ email: email });
+    if (!!isExists) {
+      reject("Username/Email already exists in the database");
+    } else {
+      resolve("Username/Email is available.");
+    }
+  });
+};
+module.exports = User;

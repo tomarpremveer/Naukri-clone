@@ -25,6 +25,15 @@ exports.logout = function (req, res) {
     res.redirect("/");
   });
 };
+exports.checkForEmail = function (req, res) {
+  User.isEmailExists(req.body.email)
+    .then((success) => {
+      res.send(success);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
 exports.register = function (req, res) {
   let user = new User(req.body);
   user

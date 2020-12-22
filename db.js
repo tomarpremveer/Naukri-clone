@@ -5,7 +5,7 @@ const CONNECTIONSTRING =
   "mongodb://localhost:27017/naukri?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 3000;
 mongodb.connect(
-  CONNECTIONSTRIN,
+  CONNECTIONSTRING,
   { useNewUrlParser: true, useUnifiedTopology: true },
   function (err, client) {
     module.exports = client;
