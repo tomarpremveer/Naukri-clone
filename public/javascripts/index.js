@@ -29,6 +29,31 @@ function debounce(fn, delay) {
  * Function to check whether username available or not
  */
 
-function checkForEmail(element) {
-  fetch("/checkForEmail");
+function checkForEmail(value) {
+  fetch("/checkForEmail", {
+    method: "post",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      value: value,
+    }),
+  })
+    .then((result) => {
+      console.log(result);
+      // let resultElement = document.querySelector("#emailExistsResult");
+      // resultElement.hidden = false;
+      // resultElement.innerHTML = "This email is available";
+    })
+    .catch((err) => {
+      let resultElement = document.querySelector("#emailExistsResult");
+      resultElement.hidden = false;
+      resultElement.innerHTML = "This email is not available";
+    });
+}
+
+var debouncedFunction = debounce(checkForEmail, 1000);
+function sayhi(value) {
+  console.log(value);
 }

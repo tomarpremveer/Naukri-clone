@@ -1,4 +1,6 @@
 const Job = require("../models/Job");
+const ObjectID = require("mongodb").ObjectID;
+
 /**
  * Function to add a new Job to the database
  * @param {Request Object} req
@@ -31,10 +33,10 @@ exports.appliedJobs = function (req, res) {
 exports.addJob = function (req, res) {
   var jobData = {
     title: req.body.title,
-    desc: req.body.desc,
+    desc: req.body.description,
     postedDate: new Date().toJSON().slice(0, 10),
     expireDate: req.body.expireDate,
-    recruiterId: req.body.id,
+    recruiterId: ObjectID(req.visitorId),
     companyName: req.body.companyName,
   };
   var job = new Job(jobData);
@@ -42,7 +44,8 @@ exports.addJob = function (req, res) {
     .addNewJob()
     .then((data) => {
       const jobId = data.info.ops[0]._id;
-      res.render(`viewJob/${jobId}`, { title: "Job" });
+      console.log(jobId);
+      res.redirect("postAd");
     })
     .catch((err) => {
       res.send(err);
@@ -89,5 +92,12 @@ exports.postAd = function (req, res) {
   res.render("postAd", { title: "Post a Job" });
 };
 exports.candidatesApplied = function (req, res) {
-  res.render("candidatesApplied", { title: "Candidates Applied for this Job" });
+  Job.viewCandidates(req.params.jobId, req.visitorId)
+    .then((success) => {
+      console.log(success);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // res.render("candidatesApplied", { title: "Candidates Applied for this Job" });
 };

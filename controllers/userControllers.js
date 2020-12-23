@@ -35,12 +35,16 @@ exports.logout = function (req, res) {
   });
 };
 exports.checkForEmail = function (req, res) {
-  User.isEmailExists(req.body.email)
+  User.isEmailExists(req.body.value)
     .then((success) => {
-      res.send(success);
+      res.write("hi");
+      res.end();
+      // res.json({ isAvailable: "yes" });
     })
     .catch((err) => {
-      res.send(err);
+      res.write("hi");
+      res.end();
+      //res.json({ isAvailable: "no" });
     });
 };
 exports.register = function (req, res) {

@@ -91,7 +91,7 @@ User.prototype.cleanUp = function () {
     ),
   };
 };
-User.prototype.isEmailExists = function (email) {
+User.isEmailExists = function (email) {
   return new Promise(async (resolve, reject) => {
     let isExists = await usersCollection.find({ email: email });
     if (!!isExists) {

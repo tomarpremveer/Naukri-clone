@@ -26,16 +26,33 @@ Job.prototype.addNewJob = function () {
   });
 };
 Job.viewCandidates = function (jobId, recruiterId) {
+  //console.log("job" + jobId, +"recr" + recruiterId);
   return new Promise(async (resolve, reject) => {
-    var candidates = await appliedJobsCollection.find({
-      jobId: ObjectID(jobId),
-      recruiterId: ObjectID(recruiterId),
-    });
-    if (candidates.length > 0) {
-      resolve(candidates);
-    } else {
-      reject("No candidate have applied for this job");
-    }
+    var candidates = await usersCollection
+      .aggregate([
+        {
+          $match: {
+            jobId: ObjectID(jobId),
+            recruiterId: ObjectID(recruiterId),
+          },
+        },
+        {
+          $lookup: {
+            from: "appliedJobs",
+            localField: "_id",
+            foreignField: "studentId",
+            as: "candidates",
+          },
+        },
+      ])
+      .toArray();
+    console.log(candidates);
+    resolve("yes");
+    // if (candidates.length > 0) {
+    //   resolve(candidates);
+    // } else {
+    //   reject("No candidate have applied for this job");
+    // }
   });
 };
 Job.viewJob = function (jobId) {

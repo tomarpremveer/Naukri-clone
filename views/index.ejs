@@ -8,7 +8,7 @@
             <form action="/login" method="POST" id="login-form">
                 <div class="form-group">
                   <label for="username-register" class="text-muted mb-1"
-                    ><small>Username/Email</small></label
+                    ><small>Email</small></label
                   >
                   <input
                     name="username"
@@ -73,9 +73,11 @@
           id="email-register"
           class="form-control"
           type="email"
+          onkeyup="debouncedFunction(event.target.value)"
           placeholder="you@example.com"
           autocomplete="off"
         />
+        <p id="emailExistsResult" hidden></p>
       </div>
       <div class="form-check">
         <input name="isRecruiter" onChange="showCompanyInput()" class="form-check-input" type="checkbox" value="yes" id="isRecruiterSignUp">

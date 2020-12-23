@@ -23,7 +23,7 @@
             <td><%=job.companyName %></td>
             <td><%= job.postedDate %></td>
             <td><%= job.expireDate %></td>
-            <td><a href="candidatesApplied/<% job._id%>">View Candidates </a></td>
+            <td><a href="candidatesApplied/<%= job._id%>">View Candidates </a></td>
           </tr>
           <% })%>
           <%  } else { %>
