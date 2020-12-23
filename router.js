@@ -20,6 +20,7 @@ router.get(
 router.post("/addJob", jobControllers.addJob);
 router.get("/postAd", userControllers.isLoggedIn, jobControllers.postAd);
 router.get("/viewJob/:id", jobControllers.viewJob);
+router.post("/apply", jobControllers.applyForJob);
 router.get(
   "/candidatesApplied",
   userControllers.isLoggedIn,

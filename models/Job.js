@@ -52,19 +52,34 @@ Job.viewJob = function (jobId) {
   });
 };
 Job.applyForJob = function (jobId, studentId, recruiterId) {
-  return new Promise((resolve, reject) => {
-    appliedJobsCollection
-      .insertOne({
-        jobId: ObjectID(jobId),
-        studentId: ObjectID(studentId),
-        recruiterId: ObjectID(recruiterId),
-      })
-      .then((info) => {
-        resolve({ success: true });
-      })
-      .catch((err) => {
-        reject(err);
-      });
+  return new Promise(async (resolve, reject) => {
+    /**
+     * First check whether the user has already applied for the job or not.
+     */
+    let hasApplied = await appliedJobsCollection.findOne({
+      jobId: ObjectID(jobId),
+      studentId: ObjectID(studentId),
+      recruiterId: ObjectID(recruiterId),
+    });
+    console.log("hasApplied" + hasApplied);
+    if (hasApplied != null) {
+      reject("You have already applied for this job.");
+    } else {
+      appliedJobsCollection
+        .insertOne({
+          jobId: ObjectID(jobId),
+          studentId: ObjectID(studentId),
+          recruiterId: ObjectID(recruiterId),
+          appliedOn: new Date().toJSON().slice(0, 10),
+        })
+        .then((info) => {
+          resolve({ success: true });
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    }
   });
 };
 Job.getJobs = function (visitorId, isRecruiter) {
@@ -84,7 +99,7 @@ Job.getJobs = function (visitorId, isRecruiter) {
        * If Logged In user is the student then fetch the available jobs
        */
       let availableJobs = await jobCollection.find({}).toArray();
-      console.log(availableJobs);
+      //console.log(availableJobs);
       resolve(availableJobs);
     }
     reject("Error in Fetching jobs");
@@ -93,9 +108,22 @@ Job.getJobs = function (visitorId, isRecruiter) {
 Job.getAppliedJobs = function (visitorId) {
   return new Promise(async (resolve, reject) => {
     let appliedJobs = await appliedJobsCollection
-      .find({ studentId: ObjectID(visitorId) })
+      .aggregate([
+        {
+          $match: { studentId: ObjectID(visitorId) },
+        },
+        {
+          $lookup: {
+            from: "jobs",
+            localField: "jobId",
+            foreignField: "_id",
+            as: "appliedJobs",
+          },
+        },
+      ])
       .toArray();
-    resolve(appliedJobs);
+    // console.log(appliedJobs[0].appliedJobs);
+    resolve(appliedJobs[0]);
   });
   reject("Some error Occured");
 };

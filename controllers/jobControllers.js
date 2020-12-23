@@ -32,6 +32,7 @@ exports.addJob = function (req, res) {
   var jobData = {
     title: req.body.title,
     desc: req.body.desc,
+    postedDate: new Date().toJSON().slice(0, 10),
     expireDate: req.body.expireDate,
     recruiterId: req.body.id,
     companyName: req.body.companyName,
@@ -68,7 +69,22 @@ exports.viewJob = function (req, res) {
       });
     });
 };
-
+exports.applyForJob = function (req, res) {
+  console.log("job controllers");
+  Job.applyForJob(req.body.jobId, req.visitorId, req.body.recruiterId)
+    .then((success) => {
+      req.flash("success", "Your submission for the job was successful");
+      req.session.save(function () {
+        res.redirect("/jobs");
+      });
+    })
+    .catch((err) => {
+      req.flash("errors", err);
+      req.session.save(function () {
+        res.redirect("/jobs");
+      });
+    });
+};
 exports.postAd = function (req, res) {
   res.render("postAd", { title: "Post a Job" });
 };

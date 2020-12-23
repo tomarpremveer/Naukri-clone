@@ -2,22 +2,34 @@
 <div class ="container py-md-5">
   <%- include('flash.ejs') %>
     <div class="col-lg-12 py-3 py-md-5">
-      <p><%= jobs[0].title %></p>
-    <table class="table table-hover table-striped table-bordered">
+      <p></p>
+      <table class="table table-hover table-striped table-bordered">
         <thead>
           <tr>
             <th scope="col">Job Title</th>
             <th scope="col">Company Name</th>
             <th scope="col">Applied On</th>
+            <th scope="col">Posted Date</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Mark</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-          </tr>
+
+      <% if(jobs) { %>
+        <% jobs.appliedJobs.forEach((job)=>{ %>
+        <tr>
+          <td><%= job.title %></td>
+          <td><%= job.companyName %></td>
+          <td><%= jobs.appliedOn %></td>
+          <td><%= job.postedDate %></td>
+        </tr>
+        <% }) %>
+        <% }else {%>
+<tr colspan="5">
+  <p>You have not applied for any job</p>
+</tr>
+          <% } %>
+
+          
         </tbody>
       </table>
       </div>

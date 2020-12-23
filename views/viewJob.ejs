@@ -11,7 +11,18 @@
             <p class="h3">Company Name: <%= job.companyName %></p>
             <br>
             <br>
-            <a class="btn btn-primary">Apply For Job</a>
+            <form action="/apply" method="post" >
+                <input name="jobId" value="<%= job._id %>" hidden>
+                <input name="recruiterId" value="<%=job.recruiterId %>" hidden>
+                <button
+                  type="submit"
+                  class=" btn btn-md btn-success"
+                >
+                  Apply for Job
+                </button>
+              </form>
+            </form>
+            <!-- <a class="btn btn-primary" href="/apply/<%= job._id%>/<%=job.recruiterId %>">Apply For Job</a> -->
             <% } else { %>
                 <p class="display-4">The requested job is not valid</p>
                 <% } %>

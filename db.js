@@ -1,7 +1,7 @@
 const mongodb = require("mongodb");
-const CONNECTIONSTRING =
-  "mongodb+srv://todoapp:8268@cluster0-ygbdi.mongodb.net/naukri?retryWrites=true&w=majority";
 const CONNECTIONSTRIN =
+  "mongodb+srv://todoapp:8268@cluster0-ygbdi.mongodb.net/naukri?retryWrites=true&w=majority";
+const CONNECTIONSTRING =
   "mongodb://localhost:27017/naukri?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 3000;
 mongodb.connect(

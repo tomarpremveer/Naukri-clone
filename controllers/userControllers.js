@@ -2,7 +2,7 @@ const User = require("../models/User");
 
 exports.login = function (req, res) {
   const { username, password, isRecruiter } = req.body;
-  let user = new User({
+  var user = new User({
     username,
     password,
     isRecruiter: !!isRecruiter,
@@ -10,7 +10,7 @@ exports.login = function (req, res) {
   user
     .login()
     .then(function (jobs) {
-      console.log(jobs);
+      // console.log(jobs);
       req.session.user = {
         username: user.userData.username,
         _id: user.userData._id,

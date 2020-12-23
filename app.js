@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 app.use(function (req, res, next) {
   res.locals.errors = req.flash("errors");
-  res.locals.success = req.flash("sucess");
+  res.locals.success = req.flash("success");
   if (req.session.user) {
     req.visitorId = req.session.user._id;
     req.isRecruiter = req.session.user.isRecruiter;

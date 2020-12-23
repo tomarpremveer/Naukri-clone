@@ -21,8 +21,8 @@
           <tr>
             <td><%= job.title %></td>
             <td><%=job.companyName %></td>
-            <td><%= job.expireDate%></td>
-            <td><%= job.expireDate%></td>
+            <td><%= job.postedDate %></td>
+            <td><%= job.expireDate %></td>
             <td><a href="candidatesApplied/<% job._id%>">View Candidates </a></td>
           </tr>
           <% })%>
@@ -54,8 +54,8 @@
           <tr>
             <td><%= job.title %></td>
             <td><%=job.companyName %></td>
-            <td><%= job.expireDate%></td>
-            <td><%= job.expireDate%></td>
+            <td><%= job.postedDate %></td>
+            <td><%= job.expireDate %></td>
             <td><a href="viewJob/<%= job._id %>" >Apply</a></td>
           </tr>
           <% })%>
