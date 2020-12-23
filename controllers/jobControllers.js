@@ -5,8 +5,6 @@ const Job = require("../models/Job");
  * @param {Response Object} res
  */
 exports.home = function (req, res) {
-  console.log("inside the jobs ");
-  console.log(req.isRecruiter);
   Job.getJobs(req.visitorId, req.isRecruiter)
     .then((jobs) => {
       res.render("jobs", { jobs: jobs, title: "Jobs Home" });
@@ -48,7 +46,10 @@ exports.viewJob = function (req, res) {
   Job.viewJob(req.params.id)
     .then((jobData) => {
       // const { title } = jobData;
-      res.render("viewJob", { title: jobData.title });
+      res.render("viewJob", {
+        title: jobData.title + jobData.companyName,
+        job: jobData,
+      });
     })
     .catch((err) => {
       res.send("this is the error" + err);

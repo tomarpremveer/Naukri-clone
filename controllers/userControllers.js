@@ -14,6 +14,7 @@ exports.login = function (req, res) {
       req.session.user = {
         username: user.userData.username,
         _id: user.userData._id,
+        fullname: user.userData.fullname,
         isRecruiter: user.userData.isRecruiter,
       };
       req.session.save(function () {
@@ -50,6 +51,7 @@ exports.register = function (req, res) {
       req.session.user = {
         username: user.userData.username,
         _id: info.ops[0]._id,
+        fullname: user.userData.fullname,
         isRecruiter: user.userData.isRecruiter,
       };
       req.session.save(function () {

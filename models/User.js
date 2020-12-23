@@ -81,6 +81,7 @@ User.prototype.cleanUp = function () {
     this.userData.password = "";
   }
   this.userData = {
+    fullname: this.userData.fullname.trim().toLowerCase(),
     email: this.userData.email.trim().toLowerCase(),
     username: this.userData.email.trim().toLowerCase().split("@")[0],
     password: this.userData.password,

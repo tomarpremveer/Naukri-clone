@@ -43,7 +43,7 @@ Job.viewJob = function (jobId) {
     jobCollection
       .findOne({ _id: ObjectID(jobId) })
       .then((job) => {
-        //console.log(job);
+        //console.log("the job" + job);
         resolve(job);
       })
       .catch((err) => {
