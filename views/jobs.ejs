@@ -7,7 +7,6 @@
     <table class="table table-hover table-striped table-bordered">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Job Title</th>
             <th scope="col">Company Name</th>
             <th scope="col">Posted On</th>
@@ -20,12 +19,11 @@
             <% jobs.forEach((job)=>{ %>
               
           <tr>
-            <th scope="row">1</th>
             <td><%= job.title %></td>
             <td><%=job.companyName %></td>
             <td><%= job.expireDate%></td>
-            <td><%= %></td>
-            <td><%=`View` %></td>
+            <td><%= job.expireDate%></td>
+            <td><a href="candidatesApplied/<% job._id%>">View Candidates </a></td>
           </tr>
           <% })%>
           <%  } else { %>
@@ -42,7 +40,6 @@
         <table class="table table-hover table-striped table-bordered">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Job Title</th>
               <th scope="col">Company Name</th>
               <th scope="col">Posted On</th>
@@ -55,11 +52,10 @@
             <% jobs.forEach((job)=>{ %>
               
           <tr>
-            <th scope="row">1</th>
             <td><%= job.title %></td>
             <td><%=job.companyName %></td>
             <td><%= job.expireDate%></td>
-            <td><%= %></td>
+            <td><%= job.expireDate%></td>
             <td><a href="viewJob/<%= job._id %>" >Apply</a></td>
           </tr>
           <% })%>

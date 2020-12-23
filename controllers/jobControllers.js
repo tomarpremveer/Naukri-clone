@@ -17,7 +17,16 @@ exports.home = function (req, res) {
     });
 };
 exports.appliedJobs = function (req, res) {
-  res.render("appliedJobs", { title: "Applied Jobs" });
+  Job.getAppliedJobs(req.visitorId)
+    .then((jobs) => {
+      res.render("appliedJobs", { jobs: jobs, title: "Applied Jobs" });
+    })
+    .catch((err) => {
+      req.flash("errors", err);
+      req.session.save(function () {
+        res.redirect("/");
+      });
+    });
 };
 exports.addJob = function (req, res) {
   var jobData = {
@@ -31,7 +40,8 @@ exports.addJob = function (req, res) {
   job
     .addNewJob()
     .then((data) => {
-      res.send("this is the data returned" + data.success);
+      const jobId = data.info.ops[0]._id;
+      res.render(`viewJob/${jobId}`, { title: "Job" });
     })
     .catch((err) => {
       res.send(err);
@@ -52,6 +62,16 @@ exports.viewJob = function (req, res) {
       });
     })
     .catch((err) => {
-      res.send("this is the error" + err);
+      req.flash("errors", err);
+      req.session.save(function () {
+        res.redirect("/");
+      });
     });
+};
+
+exports.postAd = function (req, res) {
+  res.render("postAd", { title: "Post a Job" });
+};
+exports.candidatesApplied = function (req, res) {
+  res.render("candidatesApplied", { title: "Candidates Applied for this Job" });
 };

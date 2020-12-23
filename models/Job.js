@@ -71,8 +71,7 @@ Job.getJobs = function (visitorId, isRecruiter) {
   return new Promise(async (resolve, reject) => {
     if (isRecruiter) {
       /**
-       * If the attempted user(user tring to log In) is a recruiter
-       * then retrieve the jobs posted by the recruiter.
+       * If Logged In user is the recruiter then fetch the jobs posted by the recruiter.
        */
       let postedjobs = await jobCollection
         .find({
@@ -81,11 +80,23 @@ Job.getJobs = function (visitorId, isRecruiter) {
         .toArray();
       resolve(postedjobs || []);
     } else {
+      /**
+       * If Logged In user is the student then fetch the available jobs
+       */
       let availableJobs = await jobCollection.find({}).toArray();
       console.log(availableJobs);
       resolve(availableJobs);
     }
     reject("Error in Fetching jobs");
   });
+};
+Job.getAppliedJobs = function (visitorId) {
+  return new Promise(async (resolve, reject) => {
+    let appliedJobs = await appliedJobsCollection
+      .find({ studentId: ObjectID(visitorId) })
+      .toArray();
+    resolve(appliedJobs);
+  });
+  reject("Some error Occured");
 };
 module.exports = Job;

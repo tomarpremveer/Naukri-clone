@@ -1,0 +1,70 @@
+<%- include ("header") %>
+<%- include ("flash") %>
+<div class="container py-md-5">
+    <div class="col-lg-7 pl-lg-5 pb-3 py-lg-5">
+        <h1 class="display-5">Post Job</h1>
+        <form action="/addJob" method="POST" id="registration-form">
+          <div class="form-group">
+            <label for="title" class="text-muted mb-1"
+              ><small>Title</small></label
+            >
+            <input
+              name="title"
+              id="title"
+              class="form-control"
+              type="text"
+              placeholder="Enter Job title"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="description" class="text-muted mb-1"
+              ><small>Description</small></label
+            >
+            <input
+              name="description"
+              id="description"
+              class="form-control"
+              type="text"
+              placeholder="Enter Job description"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group" id="companyName">
+            <label for="companyname" class="text-muted mb-1"
+              ><small>Company Name</small></label
+            >
+            <input
+              name="companyName"
+              id="companyName"
+              class="form-control"
+              type="text"
+              placeholder="Enter your Company Name"
+              autocomplete="off"
+            />
+          </div>
+    
+          <div class="form-group">
+            <label for="expireDate" class="text-muted mb-1"
+              ><small>Expire Date</small></label
+            >
+            <input
+              name="expireDate"
+              id="expireDate"
+              class="form-control"
+              type="date"
+              placeholder="Enter Job expiry date"
+            />
+          </div>
+    
+          <button
+            type="submit"
+            class="py-3 mt-4 btn btn-lg btn-success btn-block"
+          >
+            Post Job
+          </button>
+        </form>
+    </div>
+    </div>
+</div>
+<%- include("footer") %>
