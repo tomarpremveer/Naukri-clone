@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const ObjectID = require("mongodb").ObjectID;
 const usersCollection = require("../db").db().collection("users");
 const jobCollection = require("../db").db().collection("jobs");
 /**
@@ -12,27 +13,30 @@ let User = function (userData) {
 
 User.prototype.login = function () {
   return new Promise((resolve, reject) => {
-    //this.cleanUp();
     usersCollection
       .findOne({ username: this.userData.username })
       .then((attemptedUser) => {
+        //console.log(attemptedUser);
         if (
           attemptedUser &&
-          bcrypt.compareSync(this.data.password, attemptedUser.password)
+          bcrypt.compareSync(this.userData.password, attemptedUser.password)
         ) {
           this.userData = attemptedUser;
-          let jobs = jobCollection().toArray();
-          resolve(jobs);
+          //let jobs = jobCollection().toArray();
+          resolve("success");
         }
       })
-      .catch(() => reject("Error occured"));
+      .catch((err) => {
+        console.log(err);
+        reject("Error occured");
+      });
   });
 };
 
 User.prototype.register = function () {
   return new Promise((resolve, reject) => {
-    //this.cleanUp();
-    console.log("inside the model" + this.userData.email);
+    this.cleanUp();
+    //console.log("inside the model" + this.userData.email);
     // if (!this.errors.length) {
     let salt = bcrypt.genSaltSync(10);
     this.userData.password = bcrypt.hashSync(this.userData.password, salt);
@@ -42,7 +46,7 @@ User.prototype.register = function () {
         resolve(info);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         reject(err);
       });
     // } else {
@@ -65,6 +69,7 @@ User.prototype.cleanUp = function () {
     username: this.userData.username.trim().toLowerCase(),
     email: this.userData.email.trim().toLowerCase(),
     password: this.userData.password,
+    isRecruiter: !!this.data.isRecruiter,
   };
 };
 User.prototype.isEmailExists = function (email) {

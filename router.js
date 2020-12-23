@@ -5,7 +5,7 @@ const jobControllers = require("./controllers/jobControllers");
 /* User Routes */
 router.get("/", userControllers.index);
 
-router.get("/login", userControllers.login);
+router.post("/login", userControllers.login);
 router.get("/logout", userControllers.logout);
 router.post("/register", userControllers.register);
 router.post("/checkForEmail", userControllers.checkForEmail);

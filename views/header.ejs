@@ -9,22 +9,34 @@
 <nav role="navigation" class="navbar fixed-top  navbar-dark bg-dark navbar-expand-lg ml-auto">
     <a class="navbar-brand" href="/">Naukri-Clone</a>
 <div class="collapse justify-content-between navbar-collapse d-flex" >
+  <% if(user) {%>
   <ul class="nav navbar-nav  navbar-right">
     <li class="nav-item active">
+      <% if(user.isRecruiter) {%>
+    <li class="nav-item active">
+      <a class="nav-link" href="/postedJobs">Posted Jobs</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/postAd">Post Job</a>
+    </li>
+    <% } else {%>
       <a class="nav-link" href="/jobs">Jobs</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/appliedJobs">Jobs Applied</a>
     </li>
+    <% }%>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      username</a>
+      <%= user.username %></a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
         <a class="dropdown-item" href="/logout">LogOut</a>
         </div>
     </li>
     </ul>
+    <% }else{ %>
+      <% } %>
 </div>
 </nav>
 </header>

@@ -8,9 +8,10 @@ exports.login = function (req, res) {
       req.session.user = {
         username: user.userData.username,
         _id: user.userData._id,
+        isRecruiter: user.userData.isRecruiter,
       };
       req.session.save(function () {
-        res.redirect("/");
+        res.redirect("/jobs");
       });
     })
     .catch(function (e) {
@@ -41,7 +42,6 @@ exports.register = function (req, res) {
     email: req.body.email,
     password: req.body.password,
   };
-  console.log(userData);
   var user = new User(userData);
   user
     .register()
