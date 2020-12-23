@@ -12,9 +12,17 @@ router.post("/checkForEmail", userControllers.checkForEmail);
 /* Job routes*/
 
 router.get("/jobs", userControllers.isLoggedIn, jobControllers.home);
-router.get("/appliedJobs", jobControllers.appliedJobs);
+router.get(
+  "/appliedJobs",
+  userControllers.isLoggedIn,
+  jobControllers.appliedJobs
+);
 router.post("/addJob", jobControllers.addJob);
 router.get("/postAd", userControllers.isLoggedIn, jobControllers.postAd);
 router.get("/viewJob/:id", jobControllers.viewJob);
-router.get("/candidatesApplied", jobControllers.candidatesApplied);
+router.get(
+  "/candidatesApplied",
+  userControllers.isLoggedIn,
+  jobControllers.candidatesApplied
+);
 module.exports = router;
