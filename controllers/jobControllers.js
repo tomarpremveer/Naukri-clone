@@ -43,9 +43,10 @@ exports.addJob = function (req, res) {
   job
     .addNewJob()
     .then((data) => {
-      const jobId = data.info.ops[0]._id;
-      console.log(jobId);
-      res.redirect("postAd");
+      req.flash("success", "Job Successfully posted");
+      req.session.save(function () {
+        res.redirect("postAd");
+      });
     })
     .catch((err) => {
       res.send(err);
@@ -93,11 +94,13 @@ exports.postAd = function (req, res) {
 };
 exports.candidatesApplied = function (req, res) {
   Job.viewCandidates(req.params.jobId, req.visitorId)
-    .then((success) => {
-      console.log(success);
+    .then((candidates) => {
+      res.render("candidatesApplied", {
+        title: "Candidates Applied for this Job",
+        candidates: candidates,
+      });
     })
     .catch((err) => {
       console.log(err);
     });
-  // res.render("candidatesApplied", { title: "Candidates Applied for this Job" });
 };

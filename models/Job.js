@@ -1,4 +1,5 @@
 const jobCollection = require("../db").db().collection("jobs");
+const usersCollection = require("../db").db().collection("users");
 const appliedJobsCollection = require("../db").db().collection("appliedJobs");
 const ObjectID = require("mongodb").ObjectID;
 let Job = function (jobData) {
@@ -28,7 +29,7 @@ Job.prototype.addNewJob = function () {
 Job.viewCandidates = function (jobId, recruiterId) {
   //console.log("job" + jobId, +"recr" + recruiterId);
   return new Promise(async (resolve, reject) => {
-    var candidates = await usersCollection
+    var candidates = await appliedJobsCollection
       .aggregate([
         {
           $match: {
@@ -38,21 +39,22 @@ Job.viewCandidates = function (jobId, recruiterId) {
         },
         {
           $lookup: {
-            from: "appliedJobs",
-            localField: "_id",
-            foreignField: "studentId",
-            as: "candidates",
+            from: "users",
+            localField: "studentId",
+            foreignField: "_id",
+            as: "info",
           },
         },
       ])
       .toArray();
-    console.log(candidates);
-    resolve("yes");
-    // if (candidates.length > 0) {
-    //   resolve(candidates);
-    // } else {
-    //   reject("No candidate have applied for this job");
-    // }
+    // console.log(candidates);
+    //console.log(candidates[1].candidates);
+    if (candidates.length > 0) {
+      resolve(candidates);
+    } else {
+      resolve([]);
+    }
+    reject("Some error occured");
   });
 };
 Job.viewJob = function (jobId) {
