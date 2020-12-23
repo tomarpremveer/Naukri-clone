@@ -93,12 +93,18 @@ User.prototype.cleanUp = function () {
 };
 User.isEmailExists = function (email) {
   return new Promise(async (resolve, reject) => {
-    let isExists = await usersCollection.find({ email: email });
-    if (!!isExists) {
-      reject("Username/Email already exists in the database");
-    } else {
-      resolve("Username/Email is available.");
-    }
+    usersCollection
+      .findOne({
+        email: email.trim().toLowerCase(),
+      })
+      .then((user) => {
+        console.log("Email is " + email + "result is " + user);
+        if (user == null) resolve("Email is available to use");
+        else reject("Email already exists in the database");
+      })
+      .catch((err) => {
+        reject(err);
+      });
   });
 };
 module.exports = User;

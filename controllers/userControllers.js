@@ -37,14 +37,10 @@ exports.logout = function (req, res) {
 exports.checkForEmail = function (req, res) {
   User.isEmailExists(req.body.value)
     .then((success) => {
-      res.write("hi");
-      res.end();
-      // res.json({ isAvailable: "yes" });
+      res.json({ isA: success });
     })
     .catch((err) => {
-      res.write("hi");
-      res.end();
-      //res.json({ isAvailable: "no" });
+      res.json({ isA: err });
     });
 };
 exports.register = function (req, res) {

@@ -37,19 +37,22 @@ function checkForEmail(value) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      value: value,
+      value: String(value.trim()),
     }),
   })
     .then((result) => {
-      console.log(result);
-      // let resultElement = document.querySelector("#emailExistsResult");
-      // resultElement.hidden = false;
-      // resultElement.innerHTML = "This email is available";
+      result.json().then((r) => {
+        let resultElement = document.querySelector("#emailExistsResult");
+        resultElement.hidden = false;
+        resultElement.innerHTML = r.isA;
+      });
     })
     .catch((err) => {
-      let resultElement = document.querySelector("#emailExistsResult");
-      resultElement.hidden = false;
-      resultElement.innerHTML = "This email is not available";
+      err.json().then((r) => {
+        let resultElement = document.querySelector("#emailExistsResult");
+        resultElement.hidden = false;
+        resultElement.innerHTML = r.isA;
+      });
     });
 }
 
