@@ -12,18 +12,33 @@ let User = function (userData) {
 };
 
 User.prototype.login = function () {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    // this.cleanUp();
+    const { username, password, isRecruiter } = this.userData;
+    console.log(
+      "inside the login function" + { username, password, isRecruiter }
+    );
+
     usersCollection
-      .findOne({ username: this.userData.username })
-      .then((attemptedUser) => {
-        //console.log(attemptedUser);
+      .findOne({
+        email: this.userData.username,
+        isRecruiter: this.userData.isRecruiter,
+      })
+      .then(async (attemptedUser) => {
+        /**
+         * if there is a user with the email provided then compare the password
+         */
         if (
           attemptedUser &&
           bcrypt.compareSync(this.userData.password, attemptedUser.password)
         ) {
           this.userData = attemptedUser;
-          //let jobs = jobCollection().toArray();
           resolve("success");
+        } else {
+          /**
+           * if there is no user with the provided email id then reject the promise.
+           */
+          reject("No user found");
         }
       })
       .catch((err) => {
@@ -36,7 +51,7 @@ User.prototype.login = function () {
 User.prototype.register = function () {
   return new Promise((resolve, reject) => {
     this.cleanUp();
-    //console.log("inside the model" + this.userData.email);
+    console.log("inside the model" + this.userData);
     // if (!this.errors.length) {
     let salt = bcrypt.genSaltSync(10);
     this.userData.password = bcrypt.hashSync(this.userData.password, salt);
@@ -46,7 +61,7 @@ User.prototype.register = function () {
         resolve(info);
       })
       .catch((err) => {
-        //console.log(err);
+        console.log(err);
         reject(err);
       });
     // } else {
@@ -56,8 +71,8 @@ User.prototype.register = function () {
 };
 
 User.prototype.cleanUp = function () {
-  if (typeof this.userData.username != "string") {
-    this.userData.username = "";
+  if (typeof this.userData.companyName != "string") {
+    this.userData.companyName = "";
   }
   if (typeof this.userData.email != "string") {
     this.userData.email = "";
@@ -66,10 +81,13 @@ User.prototype.cleanUp = function () {
     this.userData.password = "";
   }
   this.userData = {
-    username: this.userData.username.trim().toLowerCase(),
     email: this.userData.email.trim().toLowerCase(),
+    username: this.userData.email.trim().toLowerCase().split("@")[0],
     password: this.userData.password,
-    isRecruiter: !!this.data.isRecruiter,
+    isRecruiter: !!this.userData.isRecruiter,
+    companyName: String(
+      !!this.userData.isRecruiter && this.userData.companyName
+    ),
   };
 };
 User.prototype.isEmailExists = function (email) {

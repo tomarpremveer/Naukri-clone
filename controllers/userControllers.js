@@ -1,10 +1,16 @@
 const User = require("../models/User");
 
 exports.login = function (req, res) {
-  let user = new User(req.body);
+  const { username, password, isRecruiter } = req.body;
+  let user = new User({
+    username,
+    password,
+    isRecruiter: !!isRecruiter,
+  });
   user
     .login()
-    .then(function (result) {
+    .then(function (jobs) {
+      console.log(jobs);
       req.session.user = {
         username: user.userData.username,
         _id: user.userData._id,
@@ -37,18 +43,14 @@ exports.checkForEmail = function (req, res) {
     });
 };
 exports.register = function (req, res) {
-  var userData = {
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-  };
-  var user = new User(userData);
+  var user = new User(req.body);
   user
     .register()
     .then((info) => {
       req.session.user = {
         username: user.userData.username,
         _id: info.ops[0]._id,
+        isRecruiter: user.userData.isRecruiter,
       };
       req.session.save(function () {
         res.redirect("/jobs");
@@ -75,5 +77,10 @@ exports.isLoggedIn = function (req, res, next) {
   }
 };
 exports.index = function (req, res) {
-  res.render("index", { title: "Naukri-Clone" });
+  if (req.visitorId == 0) {
+    res.render("index", { title: "Naukri-Clone" });
+  } else {
+    res.redirect("/jobs");
+  }
+  //res.render("index", { title: "Naukri-Clone" });
 };

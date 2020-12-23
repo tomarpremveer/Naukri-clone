@@ -67,4 +67,25 @@ Job.applyForJob = function (jobId, studentId, recruiterId) {
       });
   });
 };
+Job.getJobs = function (visitorId, isRecruiter) {
+  return new Promise(async (resolve, reject) => {
+    if (isRecruiter) {
+      /**
+       * If the attempted user(user tring to log In) is a recruiter
+       * then retrieve the jobs posted by the recruiter.
+       */
+      let postedjobs = await jobCollection
+        .find({
+          recruiterId: ObjectID(visitorId),
+        })
+        .toArray();
+      resolve(postedjobs || []);
+    } else {
+      let availableJobs = await jobCollection.find({}).toArray();
+      console.log(availableJobs);
+      resolve(availableJobs);
+    }
+    reject("Error in Fetching jobs");
+  });
+};
 module.exports = Job;

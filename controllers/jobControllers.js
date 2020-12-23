@@ -5,7 +5,18 @@ const Job = require("../models/Job");
  * @param {Response Object} res
  */
 exports.home = function (req, res) {
-  res.render("jobs", { title: "Jobs Home" });
+  console.log("inside the jobs ");
+  console.log(req.isRecruiter);
+  Job.getJobs(req.visitorId, req.isRecruiter)
+    .then((jobs) => {
+      res.render("jobs", { jobs: jobs, title: "Jobs Home" });
+    })
+    .catch((err) => {
+      req.flash("Errors", "Some error occured");
+      res.session.save(function () {
+        res.redirect("/");
+      });
+    });
 };
 exports.appliedJobs = function (req, res) {
   res.render("appliedJobs", { title: "Applied Jobs" });

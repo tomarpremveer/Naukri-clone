@@ -1,6 +1,8 @@
 <%- include('header.ejs') %>
 <div class ="container py-md-5">
+  <%- include('flash.ejs') %>
     <div class="col-lg-12 py-3 py-md-5">
+      <%  if(user.isRecruiter) { %>
     <table class="table table-hover table-striped table-bordered">
         <thead>
           <tr>
@@ -13,24 +15,62 @@
           </tr>
         </thead>
         <tbody>
+          <% if(jobs.length > 0) { %>
+            <% jobs.forEach((job)=>{ %>
+              
           <tr>
             <th scope="row">1</th>
-            <td>Mark</td>
-            <td>@mdo</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
+            <td><%= job.title %></td>
+            <td><%=job.companyName %></td>
+            <td><%= job.expireDate%></td>
+            <td><%= %></td>
+            <td><%=`View` %></td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>@mdo</td>
-          </tr>
+          <% })%>
+          <%  } else { %>
+            <tr>
+              <td colspan="6">
+                <p>You have'nt posted any job.</p>
+              </td>
+            </tr>
+            <% } %>
         </tbody>
+        </table>
+        <% } else { %>
+        <table class="table table-hover table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Job Title</th>
+              <th scope="col">Company Name</th>
+              <th scope="col">Posted On</th>
+              <th scope="col">Last Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% if(jobs.length > 0) { %>
+            <% jobs.forEach((job)=>{ %>
+              
+          <tr>
+            <th scope="row">1</th>
+            <td><%= job.title %></td>
+            <td><%=job.companyName %></td>
+            <td><%= job.expireDate%></td>
+            <td><%= %></td>
+            <td><%=`Apply` %></td>
+          </tr>
+          <% })%>
+          <%  } else { %>
+            <tr>
+              <td colspan="6">
+                <p>There is no job available.</p>
+              </td>
+            </tr>
+        </tbody>
+        <% } %>
       </table>
+      <% } %>
       </div>
 </div>
 
