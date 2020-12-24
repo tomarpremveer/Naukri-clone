@@ -14,13 +14,13 @@
         </thead>
         <tbody>
 
-      <% if(jobs) { %>
-        <% jobs.appliedJobs.forEach((job)=>{ %>
+      <% if(jobs.length > 0) { %>
+        <% jobs.forEach((job)=>{ %>
         <tr>
-          <td><%= job.title %></td>
-          <td><%= job.companyName %></td>
-          <td><%= jobs.appliedOn %></td>
-          <td><%= job.postedDate %></td>
+          <td><%= job.appliedJob[0].title %></td>
+          <td><%= job.appliedJob[0].companyName %></td>
+          <td><%= job.appliedOn %></td>
+          <td><%= job.appliedJob[0].postedDate %></td>
         </tr>
         <% }) %>
         <% }else {%>

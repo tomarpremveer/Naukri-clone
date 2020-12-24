@@ -14,10 +14,10 @@ let User = function (userData) {
 User.prototype.login = function () {
   return new Promise(async (resolve, reject) => {
     // this.cleanUp();
-    const { username, password, isRecruiter } = this.userData;
-    console.log(
-      "inside the login function" + { username, password, isRecruiter }
-    );
+    // const { username, password, isRecruiter } = this.userData;
+    // console.log(
+    //   "inside the login function" + { username, password, isRecruiter }
+    // );
 
     usersCollection
       .findOne({
@@ -51,7 +51,7 @@ User.prototype.login = function () {
 User.prototype.register = function () {
   return new Promise((resolve, reject) => {
     this.cleanUp();
-    console.log("inside the model" + this.userData);
+    //console.log("inside the model" + this.userData);
     // if (!this.errors.length) {
     let salt = bcrypt.genSaltSync(10);
     this.userData.password = bcrypt.hashSync(this.userData.password, salt);
@@ -98,7 +98,7 @@ User.isEmailExists = function (email) {
         email: email.trim().toLowerCase(),
       })
       .then((user) => {
-        console.log("Email is " + email + "result is " + user);
+        // console.log("Email is " + email + "result is " + user);
         if (user == null) resolve("Email is available to use");
         else reject("Email already exists in the database");
       })

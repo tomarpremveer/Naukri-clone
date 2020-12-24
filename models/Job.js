@@ -136,13 +136,13 @@ Job.getAppliedJobs = function (visitorId) {
             from: "jobs",
             localField: "jobId",
             foreignField: "_id",
-            as: "appliedJobs",
+            as: "appliedJob",
           },
         },
       ])
       .toArray();
-    // console.log(appliedJobs[0].appliedJobs);
-    resolve(appliedJobs[0]);
+    //console.log(appliedJobs);
+    resolve(appliedJobs);
   });
   reject("Some error Occured");
 };

@@ -37,7 +37,7 @@ function checkForEmail(value) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      value: String(value.trim()),
+      value: value,
     }),
   })
     .then((result) => {
@@ -56,7 +56,7 @@ function checkForEmail(value) {
     });
 }
 
-var debouncedFunction = debounce(checkForEmail, 1000);
+var debouncedFunction = debounce(checkForEmail, 500);
 function sayhi(value) {
   console.log(value);
 }
