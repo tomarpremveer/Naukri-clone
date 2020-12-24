@@ -74,7 +74,7 @@ exports.viewJob = function (req, res) {
     });
 };
 exports.applyForJob = function (req, res) {
-  console.log("job controllers");
+  // console.log("job controllers");
   Job.applyForJob(req.body.jobId, req.visitorId, req.body.recruiterId)
     .then((success) => {
       req.flash("success", "Your submission for the job was successful");

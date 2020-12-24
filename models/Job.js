@@ -80,7 +80,7 @@ Job.applyForJob = function (jobId, studentId, recruiterId) {
       studentId: ObjectID(studentId),
       recruiterId: ObjectID(recruiterId),
     });
-    console.log("hasApplied" + hasApplied);
+    // console.log("hasApplied" + hasApplied);
     if (hasApplied != null) {
       reject("You have already applied for this job.");
     } else {
