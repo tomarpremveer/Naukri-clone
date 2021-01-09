@@ -41,22 +41,19 @@ function checkForEmail(value) {
     }),
   })
     .then((result) => {
-      result.json().then((r) => {
-        let resultElement = document.querySelector("#emailExistsResult");
-        resultElement.hidden = false;
-        resultElement.innerHTML = r.isA;
-      });
+      result.json().then(showEmailExistElement);
     })
     .catch((err) => {
-      err.json().then((r) => {
+      err.json().then(showEmailExistElement);
+    });
+}
+/*
+Debounce the checkForEmailfunction
+*/
+var debouncedFunction = debounce(checkForEmail, 500);
+
+function showEmailExistElement(r){
         let resultElement = document.querySelector("#emailExistsResult");
         resultElement.hidden = false;
         resultElement.innerHTML = r.isA;
-      });
-    });
-}
-
-var debouncedFunction = debounce(checkForEmail, 500);
-function sayhi(value) {
-  console.log(value);
 }
